@@ -1,5 +1,6 @@
 package com.martinezdputra.githubbrowser.ui.homepage
 
+import android.content.Intent
 import android.os.Handler
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
@@ -13,6 +14,7 @@ import com.martinezdputra.githubbrowser.core.CoreActivity
 import com.martinezdputra.githubbrowser.databinding.HomepageActivityBinding
 import com.martinezdputra.githubbrowser.datamodel.UserDetailDataModel
 import com.martinezdputra.githubbrowser.di.component.DaggerAppComponent
+import com.martinezdputra.githubbrowser.ui.detail.DetailActivity
 import javax.inject.Inject
 
 class HomepageActivity: CoreActivity<HomepageViewModel>(), SearchResultAdapter.OnUserSelectedListener {
@@ -76,6 +78,9 @@ class HomepageActivity: CoreActivity<HomepageViewModel>(), SearchResultAdapter.O
     }
 
     private fun navigateToDetailActivity(userId: String) {
-        // TODO
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_KEY, userId)
+        }
+        startActivity(intent)
     }
 }

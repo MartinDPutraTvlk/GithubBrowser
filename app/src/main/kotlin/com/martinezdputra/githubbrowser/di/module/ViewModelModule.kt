@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.martinezdputra.githubbrowser.di.annotation.ViewModelKey
 import com.martinezdputra.githubbrowser.factory.ViewModelFactory
+import com.martinezdputra.githubbrowser.ui.detail.DetailViewModel
 import com.martinezdputra.githubbrowser.ui.homepage.HomepageViewModel
 import dagger.Binds
 import dagger.Module
@@ -18,4 +19,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomepageViewModel::class)
     abstract fun bindHomepageViewModel(homepageViewModel: HomepageViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    abstract fun bindDetailViewModel(homepageViewModel: DetailViewModel): ViewModel
 }

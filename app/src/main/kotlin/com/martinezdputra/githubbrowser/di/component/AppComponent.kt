@@ -7,6 +7,7 @@ import com.martinezdputra.githubbrowser.di.module.ApiModule
 import com.martinezdputra.githubbrowser.di.module.AppModule
 import com.martinezdputra.githubbrowser.di.module.RepositoryModule
 import com.martinezdputra.githubbrowser.di.module.ViewModelModule
+import com.martinezdputra.githubbrowser.ui.detail.DetailActivity
 import com.martinezdputra.githubbrowser.ui.homepage.HomepageActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -33,4 +34,6 @@ interface AppComponent {
     }
 
     fun inject(homepageActivity: HomepageActivity)
+
+    fun inject(detailActivity: DetailActivity)
 }

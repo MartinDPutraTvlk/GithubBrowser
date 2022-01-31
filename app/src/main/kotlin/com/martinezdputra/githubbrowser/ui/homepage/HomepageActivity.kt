@@ -51,6 +51,11 @@ class HomepageActivity: CoreActivity<HomepageViewModel>(), SearchResultAdapter.O
         viewModel.updateSelectedUser(selectedUserDataModel)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserDetails()
+    }
+
     private fun showToastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

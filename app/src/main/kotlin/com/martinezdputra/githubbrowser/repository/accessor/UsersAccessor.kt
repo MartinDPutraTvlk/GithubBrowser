@@ -3,12 +3,14 @@ package com.martinezdputra.githubbrowser.repository.accessor
 import com.martinezdputra.githubbrowser.datamodel.response.*
 import com.martinezdputra.githubbrowser.db.AppDatabase
 import com.martinezdputra.githubbrowser.db.entity.UserDetailsEntity
+import com.martinezdputra.githubbrowser.repository.datastore.UserLocalDataStore
 import com.martinezdputra.githubbrowser.repository.datastore.UserRemoteDataStore
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import javax.inject.Inject
 
 class UsersAccessor @Inject constructor(private val remoteDataStore: UserRemoteDataStore,
+                                        private val localDataStore: UserLocalDataStore,
                                         private val appDatabase: AppDatabase) {
     fun fetchUsersData(query: String): Observable<SearchUserResponse> {
         return remoteDataStore.getSearchUsers(query)
@@ -17,6 +19,10 @@ class UsersAccessor @Inject constructor(private val remoteDataStore: UserRemoteD
     fun fetchUserDetails(userId: String): Observable<UserDetailResponse> {
         return remoteDataStore.getUserDetails(userId)
             .doOnNext(updateUserDetailsCache())
+    }
+
+    fun fetchUserDetailsFromLocalCache(): Observable<Map<String, UserDetailResponse>> {
+        return localDataStore.getUserDetails()
     }
 
     fun fetchUserRepositories(userId: String): Observable<List<UserRepositoriesResponse>> {

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.martinezdputra.githubbrowser.db.AppDatabase
 import com.martinezdputra.githubbrowser.repository.ApiService
 import com.martinezdputra.githubbrowser.repository.accessor.UsersAccessor
+import com.martinezdputra.githubbrowser.repository.datastore.UserLocalDataStore
 import com.martinezdputra.githubbrowser.repository.datastore.UserRemoteDataStore
 import dagger.Module
 import dagger.Provides
@@ -23,7 +24,10 @@ class RepositoryModule {
     fun provideHomepageRemoteDataStore(apiService: ApiService) = UserRemoteDataStore(apiService)
 
     @Provides
-    fun provideHomepageRepository(remoteDataStore: UserRemoteDataStore, appDatabase: AppDatabase): UsersAccessor {
-        return UsersAccessor(remoteDataStore, appDatabase)
+    fun provideHomepageLocalDataStore(appDatabase: AppDatabase) = UserLocalDataStore(appDatabase)
+
+    @Provides
+    fun provideHomepageRepository(remoteDataStore: UserRemoteDataStore, localDataStore: UserLocalDataStore, appDatabase: AppDatabase): UsersAccessor {
+        return UsersAccessor(remoteDataStore, localDataStore, appDatabase)
     }
 }

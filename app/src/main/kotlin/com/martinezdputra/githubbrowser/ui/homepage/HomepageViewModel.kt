@@ -31,6 +31,24 @@ class HomepageViewModel @Inject constructor(private val usersRepository: UsersAc
         }
     }
 
+    fun getUserDetails() {
+        usersRepository.fetchUserDetailsFromLocalCache()
+            .attachStandardSchedulers()
+            .subscribe({ userDetailsCache ->
+                users.value?.forEach { user ->
+                    userDetailsCache[user.id]?.also { userDetails ->
+                        user.run {
+                            bio = userDetails.bio
+                            name = userDetails.name
+                            location = userDetails.location
+                            email = userDetails.email
+                        }
+                    }
+                }
+            }, { })
+            .addToComposite()
+    }
+
     fun updateSelectedUser(userDataModel: UserDetailDataModel) {
         selectedUserId.value = userDataModel.id
     }

@@ -20,4 +20,6 @@
         <item quantity="one">%1$d year</item>
         <item quantity="other">%1$d years</item>
     </plurals>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

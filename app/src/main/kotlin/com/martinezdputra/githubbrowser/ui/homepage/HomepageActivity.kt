@@ -2,7 +2,9 @@ package com.martinezdputra.githubbrowser.ui.homepage
 
 import android.content.Intent
 import android.os.Handler
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding

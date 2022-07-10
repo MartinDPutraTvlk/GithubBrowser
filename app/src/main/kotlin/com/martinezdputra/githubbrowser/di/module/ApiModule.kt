@@ -1,5 +1,9 @@
 package com.martinezdputra.githubbrowser.di.module
 
+import android.content.Context
+import android.os.Build
+import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.martinezdputra.githubbrowser.BuildConfig
 import com.martinezdputra.githubbrowser.repository.ApiService
 import dagger.Module
 import dagger.Provides
@@ -28,16 +32,44 @@ class ApiModule {
     }
 
     @Provides
-    fun providesApiService(@Named("baseUrl") baseUrl: String) : ApiService {
-        val interceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
+    fun providesApiService(
+        @Named("baseUrl") baseUrl: String,
+        okHttpClient: OkHttpClient
+    ) : ApiService {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(OkHttpClient.Builder().addInterceptor(interceptor).build())
+            .client(okHttpClient)
             .build()
             .create(ApiService::class.java)
+    }
+
+    @Provides
+    fun providesOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        chuckerInterceptor: ChuckerInterceptor
+    ): OkHttpClient {
+        return if(BuildConfig.DEBUG) {
+             OkHttpClient
+                .Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(chuckerInterceptor)
+                .build()
+        } else {
+            OkHttpClient.Builder().build()
+        }
+    }
+
+    @Provides
+    fun providesHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+    }
+
+    @Provides
+    fun providesChuckerLoggingInterceptor(appContext: Context): ChuckerInterceptor {
+        return ChuckerInterceptor.Builder(appContext).build()
     }
 }
